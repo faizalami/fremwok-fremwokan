@@ -4028,6 +4028,11 @@ slice-ansi@^4.0.0:
     astral-regex "^2.0.0"
     is-fullwidth-code-point "^3.0.0"
 
+snabbdom@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/snabbdom/-/snabbdom-3.2.0.tgz#8ea6b2517739a7d9ca82df3f181d052adf1ca5ad"
+  integrity sha512-UWyfm8WbaFmbmYLC33pe5fawBfExhynkMDoZqQ8ehlHDwkxrgIOpWhKf5PaacLUW1n+Uwu5N5HND6mESU7cMlw==
+
 sockjs@^0.3.21:
   version "0.3.24"
   resolved "https://registry.yarnpkg.com/sockjs/-/sockjs-0.3.24.tgz#c9bc8995f33a111bea0395ec30aa3206bdb5ccce"

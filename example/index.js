@@ -1,4 +1,5 @@
 import Fw from '../src/Fw';
+import { h } from 'snabbdom';
 
 const component = {
   data: {
@@ -12,9 +13,7 @@ const component = {
     },
   },
   render () {
-    return `
-      <p>${this.data.total}</p>
-    `;
+    return h('p', [`${this.data.total}`]);
   },
 };
 

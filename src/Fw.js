@@ -1,4 +1,5 @@
 import Dependency from './Dependency';
+import { patchDom } from './VDom';
 
 class Fw {
   constructor (component, el) {
@@ -10,7 +11,7 @@ class Fw {
     this.initState(data);
     this.initMethods(methods);
 
-    this.watchMethod(this.doRender.bind(this));
+    this.watchMethod(this.render.bind(this));
   }
 
   initState (data) {
@@ -23,7 +24,7 @@ class Fw {
 
       Object.defineProperty(data, key, {
         get () {
-          console.log(`${key} get ${internalValue}`);
+          // console.log(`${key} get ${internalValue}`);
           dep.depend(); // <-- Remember the target we're running
           return internalValue;
         },
@@ -32,7 +33,7 @@ class Fw {
             internalValue = newVal;
             dep.notify(); // <-- Re-run stored functions
           }
-          console.log(`${key} set ${newVal}`);
+          // console.log(`${key} set ${newVal}`);
         },
       });
     });
@@ -50,9 +51,11 @@ class Fw {
     });
   }
 
-  doRender () {
+  render () {
     if (this.component.render) {
-      this.component.el.innerHTML = this.component.render();
+      const vnode = this.component.render();
+      patchDom(this.component.el, vnode);
+      this.component.el = vnode;
     }
   }
 }
