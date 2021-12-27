@@ -1,0 +1,37 @@
+{
+  "name": "fremwok-fremwokan",
+  "version": "1.0.0",
+  "packageManager": "yarn@3.1.1",
+  "description": "Framework just for fun.",
+  "author": {
+    "email": "f.a.faizal.amiruddin@gmail.com",
+    "name": "Faizal Amiruddin"
+  },
+  "license": "ISC",
+  "scripts": {
+    "example:dev": "webpack-dev-server --config webpack.dev.js",
+    "example:prod": "http-server ./dist -b -g",
+    "example:build": "webpack --config webpack.prod.js",
+    "lint": "eslint --ext .js --ignore-path .eslintignore .",
+    "lint:fix": "eslint --fix --ext .js --ignore-path .eslintignore ."
+  },
+  "devDependencies": {
+    "@babel/core": "^7.16.5",
+    "@babel/preset-env": "^7.16.5",
+    "babel-loader": "^8.2.3",
+    "clean-webpack-plugin": "^4.0.0",
+    "compression-webpack-plugin": "^9.2.0",
+    "eslint": "^7.32.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.2.0",
+    "html-webpack-plugin": "^5.5.0",
+    "http-server": "^14.0.0",
+    "terser-webpack-plugin": "^5.3.0",
+    "webpack": "^5.65.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.6.0",
+    "webpack-merge": "^5.8.0"
+  }
+}
