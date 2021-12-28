@@ -4,7 +4,10 @@ import {
   propsModule,
   styleModule,
   eventListenersModule,
+  jsx,
 } from 'snabbdom';
+
+window.jsx = jsx;
 
 export const patchDom = init([
   // Init patch function with chosen modules
@@ -13,7 +16,3 @@ export const patchDom = init([
   styleModule, // handles styling on elements with support for animations
   eventListenersModule, // attaches event listeners
 ]);
-
-export default {
-  patchDom,
-};

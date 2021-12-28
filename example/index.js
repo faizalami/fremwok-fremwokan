@@ -1,5 +1,17 @@
 import Fw from '../src/Fw';
-import { h } from 'snabbdom';
+
+const Test = Fw.createComponent({
+  data: {
+    tax: 5,
+  },
+  render () {
+    return (
+      <p>
+        Total + tax: <strong>{this.props.total + this.data.tax}</strong>
+      </p>
+    );
+  },
+});
 
 const component = {
   data: {
@@ -13,7 +25,14 @@ const component = {
     },
   },
   render () {
-    return h('p', [`${this.data.total}`]);
+    return (
+      <div>
+        <p>
+          Total: {this.data.total}
+        </p>
+        <Test total={this.data.total} />
+      </div>
+    );
   },
 };
 
