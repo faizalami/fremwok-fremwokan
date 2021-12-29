@@ -30,7 +30,7 @@ class Fw {
       Object.keys(component.props).forEach(key => {
         validProps = {
           ...validProps,
-          [key]: props[key],
+          [key]: props[key] !== undefined ? props[key] : component.props[key],
         };
       });
       const mountComponent = new Fw({
