@@ -9,6 +9,8 @@ class Fw {
       ...component,
       $computed: { ...computed },
       computed: {},
+      $methods: { ...methods },
+      methods: {},
       el: el || null,
     };
 
@@ -111,7 +113,28 @@ class Fw {
   initMethods (methods) {
     if (methods) {
       Object.keys(methods).forEach(key => {
-        this.watch(methods[key]);
+        const methodFunction = methods[key].bind(this.component);
+        let internalValue = null;
+        const dep = new Dependency();
+
+        this.watch(() => {
+          internalValue = (...args) => {
+            return methodFunction(...args);
+          };
+          log('methods', `value ${key} updated to ${internalValue}`);
+          dep.notify('methods');
+        });
+
+        Object.defineProperty(this.component.methods, key, {
+          get () {
+            dep.depend('methods');
+            log('methods', `get value ${key} = ${internalValue}`);
+            return internalValue;
+          },
+          set () {
+            throw new Error('Don\'t set methods value manually.');
+          },
+        });
       });
     }
   }

@@ -3,6 +3,7 @@ import Fw from '../src/Fw';
 const Test = Fw.createComponent({
   data: {
     tax: 5,
+    money: 100,
   },
   props: {
     total: 0,
@@ -12,11 +13,29 @@ const Test = Fw.createComponent({
       return this.props.total + this.data.tax;
     },
   },
+  methods: {
+    purchase (paid) {
+      const moneyReturn = paid - this.computed.getTotalWithTax;
+
+      if (moneyReturn > 0) {
+        return `return ${moneyReturn}`;
+      }
+      return 'not enough money';
+    },
+  },
   render () {
     return (
-      <p>
-        Total + tax: <strong>{this.computed.getTotalWithTax}</strong>
-      </p>
+      <div>
+        <p>
+          Total + tax: <strong>{this.computed.getTotalWithTax}</strong>
+        </p>
+        <p>
+          payment = {this.data.money}
+        </p>
+        <p>
+          {this.methods.purchase(this.data.money)}
+        </p>
+      </div>
     );
   },
 });
