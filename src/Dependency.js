@@ -1,3 +1,5 @@
+import { log } from './Logger';
+
 class Dependency {
   constructor () {
     this.subscribers = [];
@@ -6,12 +8,12 @@ class Dependency {
   depend (source) {
     if (Dependency.target && !this.subscribers.includes(Dependency.target)) {
       this.subscribers.push(Dependency.target);
-      console.log(`depend from ${source}`, this.subscribers);
+      log('dependency', `depend from ${source}`, this.subscribers);
     }
   }
 
   notify (source) {
-    console.log(`${source} notify changes`, this.subscribers);
+    log('dependency', `${source} notify changes`, this.subscribers);
     this.subscribers.forEach(sub => sub());
   }
 }

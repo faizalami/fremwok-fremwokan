@@ -43,5 +43,7 @@ const component = {
   },
 };
 
-const fw = new Fw(component, document.body);
+const fw = new Fw(component, document.body, {
+  logger: [],
+});
 window.fwData = fw;

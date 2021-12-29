@@ -1,8 +1,9 @@
 import Dependency from './Dependency';
 import { patchDom } from './VDom';
+import { log } from './Logger';
 
 class Fw {
-  constructor (component, el) {
+  constructor (component, el, { logger = [] }) {
     const { props, data, methods, computed } = component;
     this.component = {
       ...component,
@@ -10,6 +11,8 @@ class Fw {
       computed: {},
       el: el || null,
     };
+
+    this.configLogger(logger);
 
     this.initProps(props);
     this.initState(data);
@@ -24,9 +27,15 @@ class Fw {
       const mountComponent = new Fw({
         ...component,
         props,
-      });
+      }, null, {});
       return mountComponent.component.el;
     };
+  }
+
+  configLogger (config) {
+    config.forEach(key => {
+      window.loggerConfig[key] = true;
+    });
   }
 
   initState (data) {
@@ -39,11 +48,13 @@ class Fw {
         Object.defineProperty(data, key, {
           get () {
             dep.depend('state');
+            log('state', `get value ${key} = ${internalValue}`);
             return internalValue;
           },
-          set (newVal) {
-            if (internalValue !== newVal) {
-              internalValue = newVal;
+          set (newValue) {
+            if (internalValue !== newValue) {
+              log('state', `set value ${key} = ${newValue}`);
+              internalValue = newValue;
               dep.notify('state');
             }
           },
@@ -59,10 +70,11 @@ class Fw {
 
         Object.defineProperty(props, key, {
           get () {
+            log('props', `get value ${key} = ${internalValue}`);
             return internalValue;
           },
           set () {
-            throw new Error('Don\'t set props inside the component');
+            throw new Error('Don\'t set props inside the component.');
           },
         });
       });
@@ -72,22 +84,24 @@ class Fw {
   initComputed (computed) {
     if (computed) {
       Object.keys(computed).forEach(key => {
+        const computedFunction = computed[key].bind(this.component);
         let internalValue = null;
         const dep = new Dependency();
 
         this.watch(() => {
-          const computedFunction = computed[key].bind(this.component);
           internalValue = computedFunction();
+          log('computed', `value ${key} updated to ${internalValue}`);
           dep.notify('computed');
         });
 
         Object.defineProperty(this.component.computed, key, {
           get () {
             dep.depend('computed');
+            log('computed', `get value ${key} = ${internalValue}`);
             return internalValue;
           },
           set () {
-            throw new Error('Don\'t set props inside the component');
+            throw new Error('Don\'t set computed value manually.');
           },
         });
       });
