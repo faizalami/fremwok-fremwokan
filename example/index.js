@@ -4,6 +4,9 @@ const Test = Fw.createComponent({
   data: {
     tax: 5,
   },
+  props: {
+    total: 0,
+  },
   render () {
     return (
       <p>

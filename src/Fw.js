@@ -3,12 +3,13 @@ import { patchDom } from './VDom';
 
 class Fw {
   constructor (component, el) {
-    const { data, methods } = component;
+    const { props, data, methods } = component;
     this.component = {
       ...component,
       el: el || null,
     };
 
+    this.initProps(props);
     this.initState(data);
     this.initMethods(methods);
 
@@ -17,11 +18,10 @@ class Fw {
 
   static createComponent (component) {
     return (props) => {
-      const config = {
+      const mountComponent = new Fw({
         ...component,
         props,
-      };
-      const mountComponent = new Fw(config);
+      });
       return mountComponent.component.el;
     };
   }
@@ -47,6 +47,23 @@ class Fw {
               dep.notify(); // <-- Re-run stored functions
             }
             // console.log(`${key} set ${newVal}`);
+          },
+        });
+      });
+    }
+  }
+
+  initProps (props) {
+    if (props) {
+      Object.keys(props).forEach(key => {
+        const internalValue = props[key];
+
+        Object.defineProperty(props, key, {
+          get () {
+            return internalValue;
+          },
+          set () {
+            throw new Error('Don\'t set props inside the component');
           },
         });
       });
