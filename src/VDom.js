@@ -6,7 +6,6 @@ import {
   eventListenersModule,
   jsx,
 } from 'snabbdom';
-import { log } from './Logger';
 
 window.jsx = jsx;
 
@@ -21,7 +20,6 @@ export const patchDom = init([
       if (vnode.onDestroy) {
         vnode.onDestroy();
       }
-      log('lifecycle', 'destroy', vnode);
     },
   },
 ]);
