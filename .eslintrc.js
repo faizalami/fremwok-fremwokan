@@ -12,6 +12,7 @@ module.exports = {
   rules: {
     'comma-dangle': ['error', 'always-multiline'],
     semi: ['error', 'always'],
+    'no-new': 'off',
     'no-unused-vars': 'off',
   },
 };

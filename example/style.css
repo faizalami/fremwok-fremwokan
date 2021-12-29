@@ -1,0 +1,53 @@
+* {
+    font-family: Arial;
+}
+
+*, :before, :after {
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+}
+
+nav {
+    background-color: azure;
+    border-bottom: solid cadetblue 1px;
+    margin-bottom: 1rem;
+}
+
+nav>ul {
+    margin: 0;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+nav>ul>li {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav>ul>li>a {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border-left: solid cadetblue 1px;
+    border-right: solid cadetblue 1px;
+}
+
+.container {
+    margin: 0 2rem;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    margin-bottom: 1rem;
+}
+
+.input-group>input {
+    padding: 5px;
+    font-size: 1rem;
+}
