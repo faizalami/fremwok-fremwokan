@@ -1,4 +1,6 @@
+import 'regenerator-runtime';
 import Fw from '../src/Fw';
+import Router from '../src/Router';
 
 const Test = Fw.createComponent({
   data: {
@@ -101,6 +103,37 @@ const NestedParent = Fw.createComponent({
   },
 });
 
+const Home = Fw.createComponent({
+  render () {
+    return (
+      <div>
+        <p>
+          This is home
+        </p>
+      </div>
+    );
+  },
+});
+
+const About = Fw.createComponent({
+  render () {
+    return (
+      <div>
+        <p>
+          This is about
+        </p>
+      </div>
+    );
+  },
+});
+
+const routes = {
+  '/': Home,
+  '/about': About,
+};
+
+const Route = new Router(routes);
+
 const component = {
   data: {
     price: 5,
@@ -134,6 +167,19 @@ const component = {
         <NestedParent>
           <NestedChild />
         </NestedParent>
+        <ul>
+          <li>
+            <a attrs={{
+              href: '#',
+            }}>Home</a>
+          </li>
+          <li>
+            <a attrs={{
+              href: '#/about',
+            }}>About</a>
+          </li>
+        </ul>
+        <Route />
       </div>
     );
   },
