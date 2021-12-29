@@ -75,7 +75,7 @@ class Fw {
 
         Object.defineProperty(data, key, {
           get () {
-            dep.depend('state');
+            dep.depend(`state:${key}`);
             log('state', `get value ${key} = ${internalValue}`);
             return internalValue;
           },
@@ -83,7 +83,7 @@ class Fw {
             if (internalValue !== newValue) {
               log('state', `set value ${key} = ${newValue}`);
               internalValue = newValue;
-              dep.notify('state');
+              dep.notify(`state:${key}`);
             }
           },
         });
@@ -101,12 +101,12 @@ class Fw {
         this.watch(() => {
           internalValue = computedFunction();
           log('computed', `value ${key} updated to ${internalValue}`);
-          dep.notify('computed');
+          dep.notify(`computed:${key}`);
         });
 
         Object.defineProperty(this.component.computed, key, {
           get () {
-            dep.depend('computed');
+            dep.depend(`computed:${key}`);
             log('computed', `get value ${key} = ${internalValue}`);
             return internalValue;
           },
@@ -130,12 +130,12 @@ class Fw {
             return methodFunction(...args);
           };
           log('methods', `value ${key} updated to ${internalValue}`);
-          dep.notify('methods');
+          dep.notify(`methods:${key}`);
         });
 
         Object.defineProperty(this.component.methods, key, {
           get () {
-            dep.depend('methods');
+            dep.depend(`methods:${key}`);
             log('methods', `get value ${key} = ${internalValue}`);
             return internalValue;
           },
