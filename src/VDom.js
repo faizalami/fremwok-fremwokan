@@ -6,6 +6,7 @@ import {
   eventListenersModule,
   jsx,
 } from 'snabbdom';
+import { log } from './Logger';
 
 window.jsx = jsx;
 
@@ -15,4 +16,12 @@ export const patchDom = init([
   propsModule, // for setting properties on DOM elements
   styleModule, // handles styling on elements with support for animations
   eventListenersModule, // attaches event listeners
+  {
+    destroy (vnode) {
+      if (vnode.onDestroy) {
+        vnode.onDestroy();
+      }
+      log('lifecycle', 'destroy', vnode);
+    },
+  },
 ]);

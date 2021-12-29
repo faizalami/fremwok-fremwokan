@@ -21,7 +21,33 @@ class Fw {
     this.initComputed(computed);
     this.initMethods(methods);
 
+    this.lifecycleCreated();
+
     this.watch(this.render.bind(this));
+  }
+
+  lifecycleCreated () {
+    const onCreate = this.component.created ? this.component.created.bind(this.component) : null;
+    if (onCreate) {
+      onCreate();
+    }
+    log('lifecycle', 'create');
+  }
+
+  lifecycleUpdated () {
+    const onUpdate = this.component.updated ? this.component.updated.bind(this.component) : null;
+    if (onUpdate) {
+      onUpdate();
+    }
+    log('lifecycle', 'update');
+  }
+
+  lifecycleDestroyed () {
+    const onDestroy = this.component.destroyed ? this.component.destroyed.bind(this.component) : null;
+    if (onDestroy) {
+      onDestroy();
+    }
+    log('lifecycle', 'destroy');
   }
 
   static createComponent (component) {
@@ -160,8 +186,12 @@ class Fw {
       const vnode = this.component.render();
       if (this.component.el) {
         patchDom(this.component.el, vnode);
+        this.lifecycleUpdated();
       }
-      this.component.el = vnode;
+      this.component.el = {
+        ...vnode,
+        onDestroy: this.lifecycleDestroyed.bind(this),
+      };
     }
   }
 }
