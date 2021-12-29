@@ -25,17 +25,19 @@ class Fw {
   }
 
   static createComponent (component) {
-    return (props) => {
+    return (props, children) => {
       let validProps = null;
-      Object.keys(component.props).forEach(key => {
+      Object.keys({ ...component.props }).forEach(key => {
         validProps = {
           ...validProps,
           [key]: props[key] !== undefined ? props[key] : component.props[key],
         };
       });
+
       const mountComponent = new Fw({
         ...component,
         props: validProps,
+        children,
       }, null, {});
 
       return mountComponent.component.el;

@@ -40,6 +40,31 @@ const Test = Fw.createComponent({
   },
 });
 
+const NestedChild = Fw.createComponent({
+  render () {
+    return (
+      <div>
+        <p>
+          This is child
+        </p>
+      </div>
+    );
+  },
+});
+
+const NestedParent = Fw.createComponent({
+  render () {
+    return (
+      <div>
+        <p>
+          This is parent
+        </p>
+        {this.children}
+      </div>
+    );
+  },
+});
+
 const component = {
   data: {
     price: 5,
@@ -70,6 +95,9 @@ const component = {
           Total: {this.computed.total}
         </p>
         <Test total={this.computed.total} />
+        <NestedParent>
+          <NestedChild />
+        </NestedParent>
       </div>
     );
   },
