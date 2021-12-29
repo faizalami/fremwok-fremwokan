@@ -43,16 +43,29 @@ const Test = Fw.createComponent({
 const component = {
   data: {
     price: 5,
-    quantity: 10,
+    quantity: 0,
   },
   computed: {
     total () {
       return this.data.quantity * this.data.price;
     },
   },
+  methods: {
+    handleQuantity (event) {
+      this.data.quantity = Number(event.target.value);
+    },
+  },
   render () {
     return (
       <div>
+        <p>
+          Price: {this.data.price}
+        </p>
+        <p>
+          QTY:
+          <br/>
+          <input type='text' on={{ keyup: this.methods.handleQuantity }}/>
+        </p>
         <p>
           Total: {this.computed.total}
         </p>
