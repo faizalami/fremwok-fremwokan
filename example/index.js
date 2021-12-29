@@ -7,10 +7,15 @@ const Test = Fw.createComponent({
   props: {
     total: 0,
   },
+  computed: {
+    getTotalWithTax () {
+      return this.props.total + this.data.tax;
+    },
+  },
   render () {
     return (
       <p>
-        Total + tax: <strong>{this.props.total + this.data.tax}</strong>
+        Total + tax: <strong>{this.computed.getTotalWithTax}</strong>
       </p>
     );
   },
@@ -20,20 +25,19 @@ const component = {
   data: {
     price: 5,
     quantity: 10,
-    total: 0,
   },
-  methods: {
-    calculate () {
-      this.data.total = this.data.quantity * this.data.price;
+  computed: {
+    total () {
+      return this.data.quantity * this.data.price;
     },
   },
   render () {
     return (
       <div>
         <p>
-          Total: {this.data.total}
+          Total: {this.computed.total}
         </p>
-        <Test total={this.data.total} />
+        <Test total={this.computed.total} />
       </div>
     );
   },

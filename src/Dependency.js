@@ -3,14 +3,15 @@ class Dependency {
     this.subscribers = [];
   }
 
-  depend () {
+  depend (source) {
     if (Dependency.target && !this.subscribers.includes(Dependency.target)) {
-      // Only if there is a target & it's not already subscribed
       this.subscribers.push(Dependency.target);
+      console.log(`depend from ${source}`, this.subscribers);
     }
   }
 
-  notify () {
+  notify (source) {
+    console.log(`${source} notify changes`, this.subscribers);
     this.subscribers.forEach(sub => sub());
   }
 }

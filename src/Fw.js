@@ -3,17 +3,20 @@ import { patchDom } from './VDom';
 
 class Fw {
   constructor (component, el) {
-    const { props, data, methods } = component;
+    const { props, data, methods, computed } = component;
     this.component = {
       ...component,
+      $computed: { ...computed },
+      computed: {},
       el: el || null,
     };
 
     this.initProps(props);
     this.initState(data);
+    this.initComputed(computed);
     this.initMethods(methods);
 
-    this.watchMethod(this.render.bind(this));
+    this.watch(this.render.bind(this));
   }
 
   static createComponent (component) {
@@ -28,25 +31,21 @@ class Fw {
 
   initState (data) {
     if (data) {
-      // Go through each of our data properties
       Object.keys(data).forEach(key => {
         let internalValue = data[key];
 
-        // Each property gets a dependency instance
         const dep = new Dependency();
 
         Object.defineProperty(data, key, {
           get () {
-            // console.log(`${key} get ${internalValue}`);
-            dep.depend(); // <-- Remember the target we're running
+            dep.depend('state');
             return internalValue;
           },
           set (newVal) {
             if (internalValue !== newVal) {
               internalValue = newVal;
-              dep.notify(); // <-- Re-run stored functions
+              dep.notify('state');
             }
-            // console.log(`${key} set ${newVal}`);
           },
         });
       });
@@ -70,18 +69,43 @@ class Fw {
     }
   }
 
-  watchMethod (method) {
-    Dependency.target = method.bind(this.component);
-    Dependency.target();
-    Dependency.target = null;
+  initComputed (computed) {
+    if (computed) {
+      Object.keys(computed).forEach(key => {
+        let internalValue = null;
+        const dep = new Dependency();
+
+        this.watch(() => {
+          const computedFunction = computed[key].bind(this.component);
+          internalValue = computedFunction();
+          dep.notify('computed');
+        });
+
+        Object.defineProperty(this.component.computed, key, {
+          get () {
+            dep.depend('computed');
+            return internalValue;
+          },
+          set () {
+            throw new Error('Don\'t set props inside the component');
+          },
+        });
+      });
+    }
   }
 
   initMethods (methods) {
     if (methods) {
       Object.keys(methods).forEach(key => {
-        this.watchMethod(methods[key]);
+        this.watch(methods[key]);
       });
     }
+  }
+
+  watch (func) {
+    Dependency.target = func.bind(this.component);
+    Dependency.target();
+    Dependency.target = null;
   }
 
   render () {
