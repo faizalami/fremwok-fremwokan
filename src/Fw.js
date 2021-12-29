@@ -26,10 +26,18 @@ class Fw {
 
   static createComponent (component) {
     return (props) => {
+      let validProps = null;
+      Object.keys(component.props).forEach(key => {
+        validProps = {
+          ...validProps,
+          [key]: props[key],
+        };
+      });
       const mountComponent = new Fw({
         ...component,
-        props,
+        props: validProps,
       }, null, {});
+
       return mountComponent.component.el;
     };
   }
@@ -38,6 +46,24 @@ class Fw {
     config.forEach(key => {
       window.loggerConfig[key] = true;
     });
+  }
+
+  initProps (props) {
+    if (props) {
+      Object.keys(props).forEach(key => {
+        const internalValue = props[key];
+
+        Object.defineProperty(props, key, {
+          get () {
+            log('props', `get value ${key} = ${internalValue}`);
+            return internalValue;
+          },
+          set () {
+            throw new Error('Don\'t set props inside the component.');
+          },
+        });
+      });
+    }
   }
 
   initState (data) {
@@ -59,24 +85,6 @@ class Fw {
               internalValue = newValue;
               dep.notify('state');
             }
-          },
-        });
-      });
-    }
-  }
-
-  initProps (props) {
-    if (props) {
-      Object.keys(props).forEach(key => {
-        const internalValue = props[key];
-
-        Object.defineProperty(props, key, {
-          get () {
-            log('props', `get value ${key} = ${internalValue}`);
-            return internalValue;
-          },
-          set () {
-            throw new Error('Don\'t set props inside the component.');
           },
         });
       });
