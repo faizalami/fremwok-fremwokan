@@ -71,7 +71,7 @@ const NestedChild = Fw.createComponent({
         <button on={{ click: this.methods.toggleChild }}>
           Toggle Hello
         </button>
-        {this.data.show ? 'Hello' : []}
+        <p style={{ display: this.data.show ? 'block' : 'none' }}>Hello</p>
       </div>
     );
   },
