@@ -2,6 +2,12 @@ import { match } from 'path-to-regexp';
 import Fw from './Fw';
 
 class Router {
+  /**
+   * Create a router component instance.
+   *
+   * @param {Object} routes - Path and Component key - value pairs.
+   * @returns {(function(): *)|*}
+   */
   constructor (routes) {
     this.routes = routes;
 

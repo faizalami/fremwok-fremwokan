@@ -10,8 +10,6 @@
   "license": "ISC",
   "scripts": {
     "example:dev": "webpack-dev-server --config webpack.dev.js",
-    "example:prod": "http-server ./dist -b -g",
-    "example:build": "webpack --config webpack.prod.js",
     "lint": "eslint --ext .js --ignore-path .eslintignore .",
     "lint:fix": "eslint --fix --ext .js --ignore-path .eslintignore ."
   },

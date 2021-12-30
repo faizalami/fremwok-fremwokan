@@ -1,6 +1,9 @@
 import { log } from './Logger';
 
 class Dependency {
+  /**
+   * Create an observer storage to store functions that depend on a reactive object.
+   */
   constructor () {
     this.subscribers = [];
   }

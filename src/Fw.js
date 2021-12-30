@@ -3,6 +3,21 @@ import { patchDom } from './VDom';
 import { log } from './Logger';
 
 class Fw {
+  /**
+   * Create a component instance
+   *
+   * @param {Object} component
+   * @param {Object=} component.props - Props definition using name and default value as initial value.
+   * @param {Object=} component.data - Component internal state.
+   * @param {Object=} component.computed - Functions that each must have return value and don't have parameters/arguments.
+   * @param {Object=} component.methods - A regular function that can have some parameters/arguments.
+   * @param {Function=} component.created - Component created lifecycle hook.
+   * @param {Function=} component.updated - Component updated lifecycle hook.
+   * @param {Function=} component.destroyed - Component destroyed lifecycle hook.
+   * @param {Function=} component.render - Render function that return jsx.
+   * @param {Element=} el - HTML element to mount component.
+   * @param {String[]} logger - Loggers to be enabled.
+   */
   constructor (component, el, { logger = [] }) {
     const { props, data, methods, computed } = component;
     this.component = {
