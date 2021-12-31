@@ -45,11 +45,27 @@ const component = {
   data: {
     quantity: 10,
   },
+  // computed: {
+  //   lebihKurang () {
+  //     return this.data.quantity > 10 ? 'Lebih' : 'Kurang';
+  //   },
+  // },
   methods: {
     lebihKurang (brp) {
+      console.log('quantity called');
+      // alert(this.data.quantity);
       return this.data.quantity > brp ? 'Lebih' : 'Kurang';
     },
   },
+  // render () {
+  //   return (
+  //     <div>
+  //       <p>
+  //         Total: {this.computed.lebihKurang}
+  //       </p>
+  //     </div>
+  //   );
+  // },
   render () {
     return (
       <div>
@@ -62,6 +78,7 @@ const component = {
 };
 
 const fw = new Fw(component, document.body, {
-  logger: ['dependency'],
+  // logger: ['computed', 'methods', 'dependency'],
+  logger: ['state', 'dependency'],
 });
 window.fwData = fw;
