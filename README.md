@@ -3,7 +3,7 @@
 Framework frontend Javascript yg dibuat untuk lebih memahami tentang
 sistem reactivity pada framework2 frontend modern. jika dilihat2
 framework ini kayak gabungan Vue & React. Tapi untuk pembetukan
-reactivity-nya sendiri disini aku pakai dasar dari konsep reactivity Vue.
+reactivity-nya sendiri disini saya pakai dasar dari konsep reactivity Vue.
 
 Kalo tertarik mempelajari sendiri bagaimana dasar reactivity dari Vue,
 silakan lihat beberapa resource ini:
@@ -113,7 +113,7 @@ new Fw(rootComponent, document.body, {
 ### Component Instance
 Bedanya apa sih **component instance** sama **application instance**? pada dasarnya application instance
 itu dipake sebagai dasar nampung semua komponen yg bakal dibuat dan tidak bisa dipake jadi tag jsx,
-jadi misal aku panggil root componentnya di jsx pake `<RootComponent />` nanti nggak bisa. Jadi root
+jadi misal saya panggil root componentnya di jsx pake `<RootComponent />` nanti nggak bisa. Jadi root
 component nggak bisa dipake lagi di tempat lain (nggak reusable).
 
 Nah untuk **component instance** digunakan untuk deklarasi component yg reusable, jadi bisa dipanggil
@@ -156,6 +156,8 @@ computed: {
 ...
 ```
 
+Baca tentang **data dan reactivity** lebih lanjut [di sini](./docs/state.md).
+
 ### Computed
 Computed atau kalau di React itu yang pakai `useMemo` adalah fungsi2 tanpa argumen yang
 harus memberikan return value. Deklarasinya berbentuk fungsi dengan return value.
@@ -173,6 +175,8 @@ computed: {
 <p>{this.computed.total}</p>
 ...
 ```
+
+Baca tentang **computed dan reactivity dari computed** lebih lanjut [di sini](./docs/computed.md).
 
 ### Methods
 Method adalah fungsi biasa, bisa pake argumen atau nggak, bisa pake return atau nggak, kalau
@@ -196,6 +200,8 @@ methods: {
 </button>
 ...
 ```
+
+Baca tentang **methods dan reactivity dari methods** lebih lanjut [di sini](./docs/methods.md).
 
 ### Props
 Props disini penulisannya nggak mirip dengan vue. Props dideklarasikan dulu pada

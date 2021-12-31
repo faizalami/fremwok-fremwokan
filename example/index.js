@@ -36,5 +36,5 @@ const component = {
 };
 
 new Fw(component, document.body, {
-  logger: [],
+  logger: ['state', 'methods'],
 });

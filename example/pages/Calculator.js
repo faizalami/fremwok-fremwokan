@@ -18,6 +18,12 @@ export default Fw.createComponent({
     handleInputB (event) {
       this.data.valueB = Number(event.target.value);
     },
+    higherThan (targetNumber) {
+      if (targetNumber < this.computed.result) {
+        return 'Yes';
+      }
+      return 'No';
+    },
   },
   render () {
     return (
@@ -57,6 +63,9 @@ export default Fw.createComponent({
           />
         </div>
         <Total valueA={this.data.valueA} valueB={this.data.valueB} />
+        <p>
+          Total is higher than 10 = {this.methods.higherThan(10)}
+        </p>
       </div>
     );
   },
