@@ -24,6 +24,6 @@ methods: {
 ## Reactivity Method di Fremwok-Fremwokan
 
 Berlanjut ke reactivity ke 3, yaitu `method`, reactivity dari `method` ini saya buat mirip dengan 
-`computed`.
+`computed`, namun bedanya pada apa yang dimasukkan dalam internal value
 
 

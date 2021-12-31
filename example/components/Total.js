@@ -10,10 +10,23 @@ export default Fw.createComponent({
       return this.props.valueA + this.props.valueB;
     },
   },
+  methods: {
+    higherThan (targetNumber) {
+      if (targetNumber < this.computed.result) {
+        return 'Yes';
+      }
+      return 'No';
+    },
+  },
   render () {
     return (
       <div>
-        { this.props.valueA } + { this.props.valueB } = { this.computed.result }
+        <p>
+          { this.props.valueA } + { this.props.valueB } = { this.computed.result }
+        </p>
+        <p>
+          Total is higher than 10 = {this.methods.higherThan(10)}
+        </p>
       </div>
     );
   },

@@ -38,7 +38,7 @@ class Fw {
 
     this.lifecycleCreated();
 
-    this.watch(this.render.bind(this));
+    this.watch('render', this.render.bind(this));
   }
 
   lifecycleCreated () {
@@ -141,7 +141,7 @@ class Fw {
         let internalValue = null;
         const dep = new Dependency();
 
-        this.watch(() => {
+        this.watch(`computed:${key}`, () => {
           internalValue = computedFunction();
           log('computed', `value ${key} updated to ${internalValue}`);
           dep.notify(`computed:${key}`);
@@ -168,7 +168,7 @@ class Fw {
         let internalValue = null;
         const dep = new Dependency();
 
-        this.watch(() => {
+        this.watch(`methods:${key}`, () => {
           internalValue = (...args) => {
             return methodFunction(...args);
           };
@@ -190,10 +190,10 @@ class Fw {
     }
   }
 
-  watch (func) {
+  watch (name, func) {
+    Dependency.targetName = name;
     Dependency.target = func.bind(this.component);
     Dependency.target();
-    Dependency.target = null;
   }
 
   render () {
