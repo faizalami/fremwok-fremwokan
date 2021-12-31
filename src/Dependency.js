@@ -10,11 +10,9 @@ class Dependency {
   }
 
   depend (source) {
-    if (Dependency.target && !this.subscribers.includes(Dependency.target)) {
-      this.subscribers.push(Dependency.target);
+    if (Dependency.targetName && !this.subscribersName.includes(Dependency.targetName)) {
       this.subscribersName.push(Dependency.targetName);
-      Dependency.target = null;
-      Dependency.targetName = null;
+      this.subscribers.push(Dependency.target);
       log('dependency', `depend from ${source} = ${this.subscribersName.join(', ')}`);
     }
   }

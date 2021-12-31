@@ -165,29 +165,22 @@ class Fw {
     if (methods) {
       Object.keys(methods).forEach(key => {
         const methodFunction = methods[key].bind(this.component);
-        let internalValue = null;
-        let prevValue = null;
         let firstRender = true;
         const dep = new Dependency();
 
         const initGetter = (...args) => {
-          dep.depend(`methods:${key}`);
-
-          const changeValue = () => {
-            internalValue = methodFunction(...args);
-            if (prevValue !== null && prevValue !== internalValue) {
-              prevValue = internalValue;
-              dep.notify(`methods:${key}`);
-            }
-            prevValue = internalValue;
-          };
-
           if (firstRender) {
-            this.watch(`methods:${key}`, changeValue);
+            dep.depend(`methods:${key}`);
+
+            this.watch(`methods:${key}`, () => {
+              if (!firstRender) {
+                dep.notify(`methods:${key}`);
+              }
+            });
             firstRender = false;
           }
 
-          return internalValue;
+          return methodFunction(...args);
         };
 
         Object.defineProperty(this.component.methods, key, {
@@ -203,7 +196,9 @@ class Fw {
   }
 
   watch (name, func) {
+    const prevTarget = Dependency.targetName;
     Dependency.targetName = name;
+    log('dependency', `target changed from ${prevTarget} to ${Dependency.targetName}`);
     Dependency.target = func.bind(this.component);
     Dependency.target();
   }

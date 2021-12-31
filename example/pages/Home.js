@@ -4,18 +4,18 @@ import ChildComponent from '../components/ChildComponent';
 
 export default Fw.createComponent({
   data: {
-    show: false,
+    homeHello: false,
   },
   methods: {
     handleShowHello (show) {
-      this.data.show = show;
+      this.data.homeHello = show;
     },
   },
   render () {
     return (
       <div>
-        <p style={{ display: this.data.show ? 'block' : 'none' }}>Hello From Home</p>
-        <ParentComponent homeHello={this.data.show} callback={this.methods.handleShowHello}>
+        <p style={{ display: this.data.homeHello ? 'block' : 'none' }}>Hello From Home</p>
+        <ParentComponent homeHello={this.data.homeHello} callback={this.methods.handleShowHello}>
           <ChildComponent />
         </ParentComponent>
       </div>
