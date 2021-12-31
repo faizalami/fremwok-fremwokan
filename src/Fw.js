@@ -166,21 +166,33 @@ class Fw {
       Object.keys(methods).forEach(key => {
         const methodFunction = methods[key].bind(this.component);
         let internalValue = null;
+        let prevValue = null;
+        let firstRender = true;
         const dep = new Dependency();
 
-        this.watch(`methods:${key}`, () => {
-          internalValue = (...args) => {
-            return methodFunction(...args);
+        const initGetter = (...args) => {
+          dep.depend(`methods:${key}`);
+
+          const changeValue = () => {
+            internalValue = methodFunction(...args);
+            if (prevValue !== null && prevValue !== internalValue) {
+              prevValue = internalValue;
+              dep.notify(`methods:${key}`);
+            }
+            prevValue = internalValue;
           };
-          log('methods', `value ${key} updated to ${internalValue}`);
-          dep.notify(`methods:${key}`);
-        });
+
+          if (firstRender) {
+            this.watch(`methods:${key}`, changeValue);
+            firstRender = false;
+          }
+
+          return internalValue;
+        };
 
         Object.defineProperty(this.component.methods, key, {
           get () {
-            dep.depend(`methods:${key}`);
-            log('methods', `get value ${key} = ${internalValue}`);
-            return internalValue;
+            return initGetter;
           },
           set () {
             throw new Error('Don\'t set methods value manually.');
