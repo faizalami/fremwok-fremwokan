@@ -357,7 +357,7 @@ Nah sebenarnya selain pakai snabbdom bisa juga pakai library lain atau bahkan bu
 Tapi karena saya lebih ingin fokus ke konsep reactivity jadi saya pakainya snabbdom saja yg
 sudah siap pakai. Lalu kalau ingin tau cara buat virtual DOM sendiri, ini ada course [create
 your own react](https://www.udemy.com/course/create-your-own-react/) yg lumayan dari udemy,
-jangan lupa belinya pas diskon aja hehe. Selain itu mungkin bisa googling dengan keyword 
+jangan lupa belinya pas diskon aja. Selain itu mungkin bisa googling dengan keyword 
 "create own virtual DOM" atau semacamnya.
 
 ### Router
