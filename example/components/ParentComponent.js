@@ -12,11 +12,9 @@ export default Fw.createComponent({
   methods: {
     toggleChild () {
       this.data.showChild = !this.data.showChild;
-      console.log(this.data.showChild ? 'child' : 'no child');
     },
     toggleHello () {
       this.data.hello = !this.data.hello;
-      console.log(this.data.hello ? 'hello' : 'no');
     },
   },
   render () {

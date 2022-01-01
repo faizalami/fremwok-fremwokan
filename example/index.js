@@ -6,7 +6,7 @@ import { routes } from './routes';
 
 const Route = new Router(routes);
 
-const component = {
+const RootComponent = {
   render () {
     return (
       <main>
@@ -35,50 +35,6 @@ const component = {
   },
 };
 
-new Fw(component, document.body, {
-  logger: ['dependency'],
+new Fw(RootComponent, document.body, {
+  logger: [],
 });
-
-// import Fw from '../src/Fw';
-//
-// const component = {
-//   data: {
-//     quantity: 10,
-//   },
-//   computed: {
-//     lebihKurang () {
-//       return this.data.quantity > 10 ? 'Lebih' : 'Kurang';
-//     },
-//   },
-//   // methods: {
-//   //   lebihKurang (brp) {
-//   //     console.log('quantity called');
-//   //     // alert(this.data.quantity);
-//   //     return this.data.quantity > brp ? 'Lebih' : 'Kurang';
-//   //   },
-//   // },
-//   render () {
-//     return (
-//       <div>
-//         <p>
-//           Total: {this.computed.lebihKurang}
-//         </p>
-//       </div>
-//     );
-//   },
-//   // render () {
-//   //   return (
-//   //     <div>
-//   //       <p>
-//   //         Total: {this.methods.lebihKurang(10)}
-//   //       </p>
-//   //     </div>
-//   //   );
-//   // },
-// };
-//
-// const fw = new Fw(component, document.body, {
-//   // logger: ['computed', 'methods', 'dependency'],
-//   logger: ['state', 'dependency'],
-// });
-// window.fwData = fw;

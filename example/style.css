@@ -10,6 +10,11 @@ a {
     text-decoration: none;
 }
 
+button {
+    margin: 0.5rem;
+    padding: 0.5rem;
+}
+
 nav {
     background-color: azure;
     border-bottom: solid cadetblue 1px;
