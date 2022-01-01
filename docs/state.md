@@ -190,6 +190,11 @@ Sebelumnya mohon maaf jika apa yang saya jelaskan benar2 membingungkan hehe. Pal
 **[Course reactivity dari Vue Mastery](https://www.vuemastery.com/courses/advanced-components/build-a-reactivity-system)**
 kalau lagi ada diskon atau ada akses gratis.
 
+## Spesifikasi State di Fremwok-Fremwokan
+
+1. `Data` bisa diambil (get) atau diubah (set) value-nya.
+2. Kalau nilai `data` berubah, semua yg mengakses `data` mendapatkan nilai `data` yg baru.
+
 ## Reactivity State di Fremwok-Fremwokan
 
 Di Fremwok-Fremwokan, reactivity nggak cuma berlaku buat `state` (`data`) aja, tapi juga
@@ -204,17 +209,22 @@ yg mengakses object2 yang reactive (mengakses `data`,`computed` dan `method`) se
 memanggil fungsi2 yang sudah disimpan method `depend` tadi, sama kayak pemanggilan `this.ygPakeQuantity()`.
 ```js
 class Dependency {
+  /**
+   * Create an observer storage to store functions that depend on a reactive object.
+   */
   constructor () {
     this.subscribers = [];
+    this.subscribersName = [];
   }
 
-  depend () {
-    if (Dependency.target && !this.subscribers.includes(Dependency.target)) {
+  depend (source) {
+    if (Dependency.targetName && !this.subscribersName.includes(Dependency.targetName)) {
+      this.subscribersName.push(Dependency.targetName);
       this.subscribers.push(Dependency.target);
     }
   }
 
-  notify () {
+  notify (source) {
     this.subscribers.forEach(sub => sub());
   }
 }
@@ -265,22 +275,23 @@ reactive? kita bisa lihat pada class `Dependency`, pada method `depend` yang dis
 `Dependency.target` yg kalau di contoh sebelumnya adalah `targetFungsi`. `Dependency.target` nantinya
 disimpan pada array `this.subscribers` yaitu pada `this.subscribers.push(Dependency.target)`.
 Nah dari sini kita tau kalau kita mau meng-observasi suatu fungsi, fungsi itu dimasukkan dulu ke
-`Dependency.target`. Contohnya seperti ini:
+`Dependency.target`. Selain itu untuk menangani kemungkinan duplikasi fungsi yang masuk ke `subscriber`
+maka digunakan `Dependency.targetName`, Contohnya seperti ini:
 
 ```js
 // Class Fw
 ...
-watch (func) {
+watch (name, func) {
+  Dependency.targetName = name;
   Dependency.target = func;
   Dependency.target();
-  Dependency.target = null;
 }
 ...
 render () {...}
 ...
 constructor () {
   ...
-  this.watch(this.render);
+  this.watch('render', this.render);
 }
 ...
 ```
@@ -290,9 +301,9 @@ Method `watch` berguna untuk meng-copy fungsi yang nantinya memakai object2 yg r
 contohnya pada method `render`. Jika pada waktu target dijalankan dengan `Dependency.target()`,
 yg diasumsikan kali ini method `render` dijalankan, dan didalam method `render` memanggil getter
 dari object2 atau dalam hal ini `data` yang reactive, maka `dep.depend()` dalam fungsi getter
-akan dijalankan sehingga method `render` masuk ke dalam `subscribers`. Lalu pada saat setter
-dari object2 reactive berjalan, dalam hal ini akan memanggil `dep.notify()`, maka method `render`
-yg sudah masuk ke `subscribers` akan otomatis dijalankan ulang.
+akan dijalankan sehingga method `render` masuk ke dalam `subscribers` jika belum pernah masuk.
+Lalu pada saat setter dari object2 reactive berjalan, dalam hal ini akan memanggil `dep.notify()`,
+maka method `render` yg tadi masuk ke `subscribers` akan otomatis dijalankan ulang.
 
 Daan beginilah ceritanya bagaimana `data` menjadi reactive. Sekali lagi mohon maaf kalau penjelasannya
 membingungkan wkwk.

@@ -16,6 +16,12 @@ computed: {
 ...
 ```
 
+## Spesifikasi Computed di Fremwok-Fremwokan
+
+1. `Computed` hanya bisa diambil (get) return value-nya.
+2. `Computed` tidak bisa diubah (set) nilainya secara manual (pakai sama dengan).
+3. Kalau nilai `computed` berubah, semua yg mengakses `computed` mendapatkan nilai `computed` yg baru.
+
 ## Reactivity Computed di Fremwok-Fremwokan
 
 Seperti yg saya jelaskan pada [dokumentasinya data](./state.md), `computed` ini termasuk salah
@@ -37,7 +43,7 @@ initComputed (computed) {
       let internalValue = null;
       const dep = new Dependency();
 
-      this.watch(() => {
+      this.watch(`computed:${key}`, () => {
         internalValue = computedFunction();
         dep.notify();
       });
@@ -75,6 +81,10 @@ dependency dari data `quantity` dan dijalankan ketika nilai `quantity` berubah a
   dep.notify();
 }
 ```
+
+Kita juga melihat kalau argumen `name` dari method `watch` diisi dengan `computed:${key}` untuk memberi
+nama yang unik untuk `Dependency.targetName`, sehingga mencegah duplikasi fungsi yang masuk ke `subscribers`.
+Untuk contoh diatas, nama yg masuk ke `Dependency.targetName` adalah `computed:total`.
 
 Seperti kita lihat juga kalau computed ini juga punya `dep.depend()` pada getter dan `dep.notify()`
 setelah merubah nilai dari internal value. Pada contoh, dapat dilihat jika computed `total` dipakai

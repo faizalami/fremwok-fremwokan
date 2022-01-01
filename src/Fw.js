@@ -184,10 +184,12 @@ class Fw {
 
         const initGetter = (...args) => {
           if (firstRender) {
+            log('methods', `function ${key} executed`);
             dep.depend(`methods:${key}`);
 
             this.watch(`methods:${key}`, () => {
               if (!firstRender) {
+                log('methods', `depended objects from ${key} updated`);
                 dep.notify(`methods:${key}`);
               }
             });
@@ -199,6 +201,7 @@ class Fw {
 
         Object.defineProperty(this.component.methods, key, {
           get () {
+            log('methods', `get function ${key}`);
             return initGetter;
           },
           set () {
