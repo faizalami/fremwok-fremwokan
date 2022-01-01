@@ -1,7 +1,7 @@
 # Fremwok-Fremwokan
 
-Framework frontend Javascript yg dibuat untuk lebih memahami tentang
-sistem reactivity pada framework2 frontend modern. jika dilihat2
+Framework frontend Javascript yg dibuat untuk **belajar** lebih memahami tentang
+**sistem reactivity** pada framework2 frontend modern. jika dilihat2
 framework ini kayak gabungan Vue & React. Tapi untuk pembetukan
 reactivity-nya sendiri disini saya pakai dasar dari konsep reactivity Vue.
 
@@ -12,9 +12,12 @@ silakan lihat beberapa resource ini:
 kalo pengen gratis tunggu free akses dari Vue Mastery, kadang ada beberapa bulan sekali.
 3. **[Artikel tentang reactivity dari teman](https://jefrydco.id/blog/create-reactivity-system-vuejs-javascript-part-1/)**
 
+Selain itu ada juga **[Frontend Framework buatan sendiri](https://mfrachet.github.io/create-frontend-framework/)**
+lainnya yg menginspirasi saya membuat Fremwok-Fremwokan.
+
 > DISCLAIMER: Saya nggak memikirkan performa ataupun error handling, karena memang
-> saya buat sesimpel mungkin untuk saya lebih memahami tentang sistem reactivity,
-> jadi jangan dipake buat build projek beneran hehe.
+> saya buat sesimpel mungkin untuk saya belajar lebih memahami tentang sistem reactivity,
+> jadi jangan dipake buat build projek beneran.
 
 ## Contoh
 
@@ -357,8 +360,8 @@ your own react](https://www.udemy.com/course/create-your-own-react/) yg lumayan 
 jangan lupa belinya pas diskon aja hehe. Selain itu mungkin bisa googling dengan keyword 
 "create own virtual DOM" atau semacamnya.
 
-### Routing
-Routing di Fremwok-Fremwokan pakai routing hash, jadi nanti url nya semacam `example.com/#/home`.
+### Router
+Router di Fremwok-Fremwokan pakai routing hash, jadi nanti url nya semacam `example.com/#/home`.
 Kenapa kok pake hash (#)? Karena ketika url pada window browser hanya berubah hash-nya, halamannya
 nggak akan redirect (bayangkan kayak refresh halaman). Jadi tentu untuk dituliskan di tag a, href-nya
 pakai semacam `href='#/home'`. Karena penerapannya cukup simple jadi saya pakai routing hash ini.
@@ -403,6 +406,24 @@ new Fw(rootComponent, document.body, {
 });
 ```
 
+Sebagai pelengkap, router ini dilengkapi juga dengan halaman 404 kustom, tapi kalau nggak pakai
+nanti bakal otomatis terpakai yg default. Contohnya:
+
+```js
+const Page404 = Fw.createComponent({
+  render () {
+    return (
+      <div>
+        <p style={{ textAlign: 'center' }}>404 - Page Not found.</p>
+      </div>
+    );
+  },
+});
+...
+const Route = new Router(routes, Page404);
+...
+```
+
 ### Logger
 Logger ini saya siapkan buat debug atau pengen tau alur dari unsur2 di dalam komponen lewat
 console browser. Ada beberapa logger yg bisa dipakai, yaitu `state`, `props`, `computed`,
@@ -414,3 +435,17 @@ new Fw(rootComponent, document.body, {
   logger: ['state', 'props', 'computed'],
 });
 ```
+
+### Issue
+
+Tentunya, karena Fremwok-Fremwokan saya buat dengan **cara paling simple** sesuai dengan intuisi
+dan asumsi saya, jadi pastinya nantinya bakal banyak masalah kalau dipakai secara kompleks. Yaa
+kembali ke tujuan semula framework ini untuk belajar, jadi saya biarkan kodingannya simple, hal-hal
+seperti error handling dan sebagainya memang saya tinggal. Contoh beberapa issue yg saya temukan:
+1. Conditional rendering dari jsx-nya yang agak bermasalah, belum tau karena plugin snabbdom nya
+atau karena kodingan saya hehe.
+2. Pemanggilan berulang fungsi2 yg sama waktu notify dipanggil, mungkin nanti bisa diatasi pakai
+teknik debouncing.
+3. Beberapa hal yg belum saya coba dan belum ada error handling, misal iseng2 `computed` diisi dengan
+object bukan fungsi, atau keisengan lainnya.
+4. Dll.
