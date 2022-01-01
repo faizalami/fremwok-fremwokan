@@ -1,6 +1,16 @@
 import { match } from 'path-to-regexp';
 import Fw from './Fw';
 
+const DefaultNotFound = Fw.createComponent({
+  render () {
+    return (
+      <div>
+        <p style={{ textAlign: 'center' }}>Not found.</p>
+      </div>
+    );
+  },
+});
+
 class Router {
   /**
    * Create a router component instance.
@@ -67,11 +77,19 @@ class Router {
       }
       return false;
     });
-    const componentFound = await routeFound.component;
-    routeFound = {
-      router: { ...routeFound },
-      component: componentFound,
-    };
+
+    if (routeFound) {
+      const componentFound = await routeFound.component;
+      routeFound = {
+        router: { ...routeFound },
+        component: componentFound,
+      };
+    } else {
+      routeFound = {
+        router: null,
+        component: DefaultNotFound,
+      };
+    }
 
     return routeFound;
   }
