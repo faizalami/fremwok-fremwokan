@@ -16,10 +16,12 @@ class Router {
    * Create a router component instance.
    *
    * @param {Object} routes - Path and Component key - value pairs.
+   * @param {Function=} notFoundComponent - Fallback component for not found page.
    * @returns {(function(): *)|*}
    */
-  constructor (routes) {
+  constructor (routes, notFoundComponent) {
     this.routes = routes;
+    this.notFoundComponent = notFoundComponent || DefaultNotFound;
 
     return () => {
       const match = new Fw({
@@ -87,7 +89,7 @@ class Router {
     } else {
       routeFound = {
         router: null,
-        component: DefaultNotFound,
+        component: this.notFoundComponent,
       };
     }
 

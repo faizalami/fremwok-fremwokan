@@ -3,8 +3,9 @@ import './style.css';
 import Fw from '../src/Fw';
 import Router from '../src/Router';
 import { routes } from './routes';
+import Page404 from './pages/404';
 
-const Route = new Router(routes);
+const Route = new Router(routes, Page404);
 
 const RootComponent = {
   render () {
