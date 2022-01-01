@@ -41,6 +41,40 @@ class Fw {
     this.watch('render', this.render.bind(this));
   }
 
+  /**
+   * Create a jsx component instance
+   *
+   * @param {Object} component
+   * @param {Object=} component.props - Props definition using name and default value as initial value.
+   * @param {Object=} component.data - Component internal state.
+   * @param {Object=} component.computed - Functions that each must have return value and don't have parameters/arguments.
+   * @param {Object=} component.methods - A regular function that can have some parameters/arguments.
+   * @param {Function=} component.created - Component created lifecycle hook.
+   * @param {Function=} component.updated - Component updated lifecycle hook.
+   * @param {Function=} component.destroyed - Component destroyed lifecycle hook.
+   * @param {Function=} component.render - Render function that return jsx.
+   * @return {Function} - JSX Component.
+   */
+  static createComponent (component) {
+    return (props, children) => {
+      let validProps = null;
+      Object.keys({ ...component.props }).forEach(key => {
+        validProps = {
+          ...validProps,
+          [key]: props[key] !== undefined ? props[key] : component.props[key],
+        };
+      });
+
+      const mountComponent = new Fw({
+        ...component,
+        props: validProps,
+        children,
+      }, null, {});
+
+      return mountComponent.component.el;
+    };
+  }
+
   lifecycleCreated () {
     const onCreate = this.component.created ? this.component.created.bind(this.component) : null;
     if (onCreate) {
@@ -63,26 +97,6 @@ class Fw {
       onDestroy();
     }
     log('lifecycle', 'destroy');
-  }
-
-  static createComponent (component) {
-    return (props, children) => {
-      let validProps = null;
-      Object.keys({ ...component.props }).forEach(key => {
-        validProps = {
-          ...validProps,
-          [key]: props[key] !== undefined ? props[key] : component.props[key],
-        };
-      });
-
-      const mountComponent = new Fw({
-        ...component,
-        props: validProps,
-        children,
-      }, null, {});
-
-      return mountComponent.component.el;
-    };
   }
 
   configLogger (config) {
