@@ -24,6 +24,11 @@ lainnya yg menginspirasi saya membuat Fremwok-Fremwokan.
 Contoh pemakaian Fremwok-Fremwokan ada di folder **[example](./example)**. Dengan cara running:
 
 ```bash
+$ yarn install
+# atau
+$ npm install
+#
+#
 $ yarn example:dev
 # atau
 $ npm start example:dev
