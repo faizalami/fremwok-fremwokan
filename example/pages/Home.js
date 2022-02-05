@@ -1,6 +1,7 @@
 import Fw from '../../src/Fw';
 import ParentComponent from '../components/ParentComponent';
 import ChildComponent from '../components/ChildComponent';
+import store from '../store/store';
 
 export default Fw.createComponent({
   data: {
@@ -9,6 +10,7 @@ export default Fw.createComponent({
   methods: {
     handleShowHello (show) {
       this.data.homeHello = show;
+      store.changeValue(5);
     },
   },
   render () {

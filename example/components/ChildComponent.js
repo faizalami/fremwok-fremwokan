@@ -1,4 +1,5 @@
 import Fw from '../../src/Fw';
+import store from '../store/store';
 
 export default Fw.createComponent({
   data: {
@@ -8,6 +9,7 @@ export default Fw.createComponent({
   methods: {
     toggleHello () {
       this.data.show = !this.data.show;
+      store.changeValue(10);
     },
   },
   created () {
