@@ -1,11 +1,15 @@
 import Fw from '../../src/Fw';
 import store from '../store/store';
+import myStore from '../store/my-store';
 
 export default Fw.createComponent({
   name: 'ChildComponent',
   data: {
     lifecycle: null,
     show: false,
+  },
+  computed: {
+    myNumberFromStore: myStore.bindStore('myNumber'),
   },
   methods: {
     toggleHello () {
@@ -30,6 +34,9 @@ export default Fw.createComponent({
       <div>
         <p>
           This is child {this.data.lifecycle}
+        </p>
+        <p>
+          my number from store = {this.computed.myNumberFromStore}
         </p>
         <button on={{ click: this.methods.toggleHello }}>
           Toggle Hello

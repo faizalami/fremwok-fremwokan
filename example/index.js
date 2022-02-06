@@ -38,5 +38,5 @@ const RootComponent = {
 };
 
 new Fw(RootComponent, document.body, {
-  logger: [],
+  logger: ['store'],
 });

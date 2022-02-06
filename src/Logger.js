@@ -6,6 +6,7 @@ window.loggerConfig = {
   dependency: false,
   lifecycle: false,
   render: false,
+  store: false,
 };
 
 export function log (source, message) {
