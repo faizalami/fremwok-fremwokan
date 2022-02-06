@@ -1,4 +1,5 @@
 import Fw from '../../src/Fw';
+import myStore from '../store/my-store';
 
 export default Fw.createComponent({
   name: 'ParentComponent',
@@ -10,11 +11,18 @@ export default Fw.createComponent({
     showChild: false,
     hello: false,
   },
+  computed: {
+    myName: myStore.bindStore('myName'),
+  },
   methods: {
     toggleChild () {
       this.data.showChild = !this.data.showChild;
     },
     toggleHello () {
+      myStore.dispatch({
+        type: 'SET_NAME',
+        payload: 'Fai',
+      });
       this.data.hello = !this.data.hello;
     },
   },
@@ -23,7 +31,9 @@ export default Fw.createComponent({
       <div>
         <p>
           This is parent
-          <span style={{ display: this.data.hello ? 'block' : 'none' }}>Hello</span>
+          <span style={{ display: this.data.hello ? 'block' : 'none' }}>
+            Hello my name is {this.computed.myName}
+          </span>
         </p>
         <button on={{ click: () => this.methods.toggleHello() }}>
           Toggle Hello

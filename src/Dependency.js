@@ -10,10 +10,11 @@ class Dependency {
   }
 
   depend (source, accept) {
-    const validTarget = Dependency.target.name &&
+    const acceptedSource = accept === 'any' || Dependency.target.source === accept;
+    const targetIsValid = Dependency.target.name &&
       !this.subscribersName.includes(Dependency.target.name) &&
-      Dependency.target.source === accept;
-    if (validTarget) {
+      acceptedSource;
+    if (targetIsValid) {
       this.subscribersName.push(Dependency.target.name);
       this.subscribers.push(Dependency.target.func);
       log('dependency', `depend from ${source} = ${this.subscribersName.join(', ')}`);
