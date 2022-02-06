@@ -25,8 +25,9 @@ class Router {
 
     return () => {
       const match = new Fw({
+        name: 'Router',
         data: {
-          router: null,
+          $router: null,
           component: () => {},
         },
         render () {
@@ -37,13 +38,13 @@ class Router {
 
       window.addEventListener('load', async () => {
         const { router, component } = await this.matchedRoute();
-        match.component.data.router = { ...router };
+        match.component.data.$router = { ...router };
         match.component.data.component = component;
       });
 
       window.addEventListener('hashchange', async () => {
         const { router, component } = await this.matchedRoute();
-        match.component.data.router = { ...router };
+        match.component.data.$router = { ...router };
         match.component.data.component = component;
       });
       return match.component.el;

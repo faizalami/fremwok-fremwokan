@@ -9,10 +9,13 @@ class Dependency {
     this.subscribersName = [];
   }
 
-  depend (source) {
-    if (Dependency.targetName && !this.subscribersName.includes(Dependency.targetName)) {
-      this.subscribersName.push(Dependency.targetName);
-      this.subscribers.push(Dependency.target);
+  depend (source, accept) {
+    const validTarget = Dependency.target.name &&
+      !this.subscribersName.includes(Dependency.target.name) &&
+      Dependency.target.source === accept;
+    if (validTarget) {
+      this.subscribersName.push(Dependency.target.name);
+      this.subscribers.push(Dependency.target.func);
       log('dependency', `depend from ${source} = ${this.subscribersName.join(', ')}`);
     }
   }
@@ -22,5 +25,10 @@ class Dependency {
     this.subscribers.forEach(sub => sub());
   }
 }
+Dependency.target = {
+  source: null,
+  name: null,
+  func: null,
+};
 
 export default Dependency;

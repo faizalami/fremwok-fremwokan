@@ -1,6 +1,7 @@
 import Fw from '../../src/Fw';
 
 export default Fw.createComponent({
+  name: 'ParentComponent',
   props: {
     callback: () => {},
     homeHello: false,

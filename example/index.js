@@ -8,6 +8,7 @@ import Page404 from './pages/404';
 const Route = new Router(routes, Page404);
 
 const RootComponent = {
+  name: 'MyApplication',
   render () {
     return (
       <main>

@@ -2,6 +2,7 @@ import Fw from '../../src/Fw';
 import Total from '../components/Total';
 
 export default Fw.createComponent({
+  name: 'Calculator',
   data: {
     valueA: 0,
     valueB: 0,

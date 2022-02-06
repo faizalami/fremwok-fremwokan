@@ -1,6 +1,7 @@
 import Fw from '../../src/Fw';
 
 export default Fw.createComponent({
+  name: 'Total',
   props: {
     valueA: 0,
     valueB: 0,

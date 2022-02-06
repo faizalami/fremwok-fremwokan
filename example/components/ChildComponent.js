@@ -2,6 +2,7 @@ import Fw from '../../src/Fw';
 import store from '../store/store';
 
 export default Fw.createComponent({
+  name: 'ChildComponent',
   data: {
     lifecycle: null,
     show: false,

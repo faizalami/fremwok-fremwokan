@@ -4,6 +4,7 @@ import ChildComponent from '../components/ChildComponent';
 import store from '../store/store';
 
 export default Fw.createComponent({
+  name: 'Home',
   data: {
     homeHello: false,
   },

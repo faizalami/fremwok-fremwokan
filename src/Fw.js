@@ -7,6 +7,7 @@ class Fw {
    * Create a component instance
    *
    * @param {Object} component
+   * @param {String} component.name - Component name.
    * @param {Object=} component.props - Props definition using name and default value as initial value.
    * @param {Object=} component.data - Component internal state.
    * @param {Object=} component.computed - Functions that each must have return value and don't have parameters/arguments.
@@ -45,6 +46,7 @@ class Fw {
    * Create a jsx component instance
    *
    * @param {Object} component
+   * @param {String} component.name - Component name.
    * @param {Object=} component.props - Props definition using name and default value as initial value.
    * @param {Object=} component.data - Component internal state.
    * @param {Object=} component.computed - Functions that each must have return value and don't have parameters/arguments.
@@ -127,12 +129,13 @@ class Fw {
     if (data) {
       Object.keys(data).forEach(key => {
         let internalValue = data[key];
+        const compName = this.component.name;
 
         const dep = new Dependency();
 
         Object.defineProperty(data, key, {
           get () {
-            dep.depend(`state:${key}`);
+            dep.depend(`state:${key}`, compName);
             log('state', `get value ${key} = ${internalValue}`);
             return internalValue;
           },
@@ -153,6 +156,7 @@ class Fw {
       Object.keys(computed).forEach(key => {
         const computedFunction = computed[key].bind(this.component);
         let internalValue = null;
+        const compName = this.component.name;
         const dep = new Dependency();
 
         this.watch(`computed:${key}`, () => {
@@ -163,7 +167,7 @@ class Fw {
 
         Object.defineProperty(this.component.computed, key, {
           get () {
-            dep.depend(`computed:${key}`);
+            dep.depend(`computed:${key}`, compName);
             log('computed', `get value ${key} = ${internalValue}`);
             return internalValue;
           },
@@ -180,12 +184,13 @@ class Fw {
       Object.keys(methods).forEach(key => {
         const methodFunction = methods[key].bind(this.component);
         let firstRender = true;
+        const compName = this.component.name;
         const dep = new Dependency();
 
         const initGetter = (...args) => {
           if (firstRender) {
             log('methods', `function ${key} executed`);
-            dep.depend(`methods:${key}`);
+            dep.depend(`methods:${key}`, compName);
 
             this.watch(`methods:${key}`, () => {
               if (!firstRender) {
@@ -213,11 +218,15 @@ class Fw {
   }
 
   watch (name, func) {
-    const prevTarget = Dependency.targetName;
-    Dependency.targetName = name;
-    log('dependency', `target changed from ${prevTarget} to ${Dependency.targetName}`);
-    Dependency.target = func.bind(this.component);
-    Dependency.target();
+    const prevTarget = Dependency.target.name;
+    log('dependency', `target changed from ${prevTarget} to ${name}`);
+    Dependency.target = {
+      ...Dependency.target,
+      source: this.component.name,
+      name: this.component.name,
+      func: name !== 'router' ? func.bind(this.component) : func,
+    };
+    Dependency.target.func();
   }
 
   render () {
@@ -225,6 +234,7 @@ class Fw {
       const vnode = this.component.render();
       if (this.component.el) {
         patchDom(this.component.el, vnode);
+        console.log(`render ${this.component.name}`, this.component);
         this.lifecycleUpdated();
       }
       this.component.el = {
