@@ -234,7 +234,7 @@ class Fw {
       const vnode = this.component.render();
       if (this.component.el) {
         patchDom(this.component.el, vnode);
-        console.log(`render ${this.component.name}`, this.component);
+        log('render', `render ${this.component.name}`);
         this.lifecycleUpdated();
       }
       this.component.el = {
