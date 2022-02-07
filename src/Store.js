@@ -34,7 +34,7 @@ class Store {
 
         Object.defineProperty(this.store, key, {
           get () {
-            dep.depend(`state:${key}`, 'any');
+            dep.depend(`store:${key}`, 'any');
             log('store', `get value ${key} = ${internalValue}`);
             return internalValue;
           },
@@ -42,7 +42,7 @@ class Store {
             if (internalValue !== newValue) {
               log('store', `set value ${key} = ${newValue}`);
               internalValue = newValue;
-              dep.notify(`state:${key}`);
+              dep.notify(`store:${key}`);
             }
           },
         });

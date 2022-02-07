@@ -20,6 +20,9 @@ class Fw {
    * @param {String[]} logger - Loggers to be enabled.
    */
   constructor (component, el, { logger = [] }) {
+    if (!component.name) {
+      throw new Error('A component must have a name.');
+    }
     const { props, data, methods, computed } = component;
     this.component = {
       ...component,
