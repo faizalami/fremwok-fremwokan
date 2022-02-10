@@ -4,7 +4,6 @@ import { log } from './Logger';
 class Store {
   constructor () {
     this.storeFunction = null;
-    this.store = {};
   }
 
   /**
@@ -23,10 +22,9 @@ class Store {
   }
 
   initStore () {
-    const data = this.storeFunction(undefined, {
-      type: null,
-    });
-    if (data) {
+    const data = this.getStoreData();
+    if (data && !this.store) {
+      this.store = {};
       Object.keys(data).forEach(key => {
         let internalValue = data[key];
 
@@ -51,6 +49,21 @@ class Store {
   }
 
   /**
+   * Get store data from store function.
+   *
+   * @param {Object} action - Valid action.
+   * @param {String} action.type - Action type.
+   * @param {*} action.payload - Action payload.
+   */
+  getStoreData (action = {}) {
+    const validAction = {
+      type: action.type,
+      payload: action.payload,
+    };
+    return this.storeFunction(this.store, validAction);
+  }
+
+  /**
    * Bind store to computed.
    *
    * @param {String} name - Store name.
@@ -70,11 +83,7 @@ class Store {
    * @param {*} action.payload - Action payload.
    */
   dispatch (action) {
-    const validAction = {
-      type: action.type,
-      payload: action.payload,
-    };
-    const newStore = this.storeFunction(this.store, validAction);
+    const newStore = this.getStoreData(action);
     Object.keys(newStore).forEach(key => {
       this.store[key] = newStore[key];
     });
