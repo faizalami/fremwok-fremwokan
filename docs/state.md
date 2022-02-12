@@ -308,4 +308,9 @@ maka method `render` yg tadi masuk ke `subscribers` akan otomatis dijalankan ula
 Daan beginilah ceritanya bagaimana `data` menjadi reactive. Sekali lagi mohon maaf kalau penjelasannya
 membingungkan wkwk.
 
+### Note
+
+Yang saya tulis disini adalah konsepnya, mungkin ada yang berbeda dari implementasinya jadi untuk
+lebih lengkapnya silakan lihat [source code-nya](../src/Fw.js).
+
 ### [Next >](./computed.md)

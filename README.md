@@ -41,6 +41,7 @@ Susunan komponen:
 import Fw from '../src/Fw';
 
 const MyComponent = Fw.createComponent({
+  name: 'MyComponent',
   props: {
     price: 0,
   },
@@ -102,10 +103,12 @@ new Fw(rootComponent, document.body, {
 });
 ```
 
-Bisa dilihat dari contoh penggunaan sederhananya kalau 1 komponen **bisa** terdiri dari `props`, `data`,
+Bisa dilihat dari contoh penggunaan sederhananya kalau 1 komponen **bisa** terdiri dari `name`, `props`, `data`,
 `computed`, `methods`, `created`, `updated`, `destroyed`, dan `render`, mirip Vue kan, emang wkwk.
 Dan sama seperti Vue juga kalau nggak perlu semua penyusun komponennya dipakai, jadi misal nggak perlu
-method atau computed ya gpp. Untuk penggunaan yang lebih lengkap bisa dilihat pada contoh di folder **[example](./example)**.
+method atau computed ya gpp, hanya saja disini untuk `name` saya buat required karena digunakan menjadi
+semacam ID dari komponen. Untuk penggunaan yang lebih lengkap bisa dilihat pada contoh di folder 
+**[example](./example)**.
 
 ### Application Instance
 1 instance aplikasi dari Fremwok-Fremwokan dibentuk dari pembuatan instance dari class Fw.
@@ -428,6 +431,59 @@ const Page404 = Fw.createComponent({
 const Route = new Router(routes, Page404);
 ...
 ```
+
+### Store (Global State Management)
+Gobal state management atau disini saya sebut store, saya buat mirip dengan [Redux](https://redux.js.org/).
+Namun karena store yang saya buat saat ini masih belum modular dan diharuskan untuk menjadi 1 instance saja,
+jadi penggunaan store harus diinisiasi pada 1 file misalnya pada contohnya pada file
+[my-store.js](./example/store/my-store.js). Kalo pemanfaatannya pada komponen untuk saat ini
+saya siapkan fungsi `bindState` untuk mengkonekkan state dari store ke komponen lewat `computed`,
+dan `dispatch` untuk mengeksekusi `action` dari mana saja seperti di `methods`,
+Sehingga sederhananya penggunaannya seperti ini:
+
+```js
+// File my-store.js
+import { configureStore } from '../../src/Store';
+
+const defaultState = {
+  myNumber: 0,
+  myName: null,
+};
+
+const myStore = (state = defaultState, action) => {
+  switch (action.type) {
+    case 'ADD':
+      return { ...state, myNumber: state.myNumber + 1 };
+    case 'SET_NAME':
+      return { ...state, myName: action.payload };
+    default:
+      return state;
+  }
+};
+
+export default configureStore(myStore);
+
+// Pada komponen
+import Fw from '../../src/Fw';
+import myStore from '../store/my-store';
+
+export default Fw.createComponent({
+  ...
+  computed: {
+    myNumberFromStore: myStore.bindState('myNumber'),
+  },
+  methods: {
+    addNumber () {
+      myStore.dispatch({
+        type: 'ADD',
+      });
+    },
+  },
+  ...
+});
+```
+
+Baca tentang **store (global state management)** lebih lanjut [di sini](./docs/store.md).
 
 ### Logger
 Logger ini saya siapkan buat debug atau pengen tau alur dari unsur2 di dalam komponen lewat

@@ -92,4 +92,9 @@ di method `render` dengan `<p>{this.computed.total}</p>`, sehingga method `rende
 dari computed `total` lalu ketika nilai computed `total` ini berubah, otomatis method `render` akan
 dijalankan ulang. Inilah reactivity pada `computed`.
 
+### Note
+
+Yang saya tulis disini adalah konsepnya, mungkin ada yang berbeda dari implementasinya jadi untuk
+lebih lengkapnya silakan lihat [source code-nya](../src/Fw.js).
+
 ### [< Previous](./state.md) ...... [Next >](./methods.md)

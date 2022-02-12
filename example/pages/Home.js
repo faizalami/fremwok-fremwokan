@@ -9,7 +9,7 @@ export default Fw.createComponent({
     homeHello: false,
   },
   computed: {
-    thisIsMyNumber: myStore.bindStore('myNumber'),
+    thisIsMyNumber: myStore.bindState('myNumber'),
   },
   methods: {
     handleShowHello (show) {

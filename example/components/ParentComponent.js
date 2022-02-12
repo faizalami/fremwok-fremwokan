@@ -12,7 +12,7 @@ export default Fw.createComponent({
     hello: false,
   },
   computed: {
-    myName: myStore.bindStore('myName'),
+    myName: myStore.bindState('myName'),
   },
   methods: {
     toggleChild () {

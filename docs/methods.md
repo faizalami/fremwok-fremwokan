@@ -105,4 +105,9 @@ Selanjutnya, yang aneh `watch` hanya memanggil fungsi untuk melakukan `dep.notif
 digunakan untuk mencegah `method` melakukan `notify` langsung setelah `depend`. Bagaimana jika tidak ada `data`
 atau `computed` yang diakses `method`? ya seharusnya `method` tidak akan melakukan `notify`.
 
-### [< Previous](./computed.md) ...... [Balik ke README >](../README.md)
+### Note
+
+Yang saya tulis disini adalah konsepnya, mungkin ada yang berbeda dari implementasinya jadi untuk
+lebih lengkapnya silakan lihat [source code-nya](../src/Fw.js).
+
+### [< Previous](./computed.md) ...... [Next >](./store.md)

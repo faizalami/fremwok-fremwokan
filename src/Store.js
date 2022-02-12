@@ -10,13 +10,13 @@ class Store {
    * Configure store.
    *
    * @param {Function} storeFunction - Valid store function.
-   * @return {{dispatch: *, bindStore: Function}}
+   * @return {{dispatch: *, bindState: Function}}
    */
   configureStore (storeFunction) {
     this.storeFunction = storeFunction;
     this.initStore();
     return {
-      bindStore: this.bindStore.bind(this.store),
+      bindState: this.bindState.bind(this.store),
       dispatch: this.dispatch.bind(this),
     };
   }
@@ -69,7 +69,7 @@ class Store {
    * @param {String} name - Store name.
    * @return {function(): *}
    */
-  bindStore (name) {
+  bindState (name) {
     return () => {
       return this[name];
     };

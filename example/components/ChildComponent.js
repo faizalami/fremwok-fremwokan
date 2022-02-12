@@ -8,7 +8,7 @@ export default Fw.createComponent({
     show: false,
   },
   computed: {
-    myNumberFromStore: myStore.bindStore('myNumber'),
+    myNumberFromStore: myStore.bindState('myNumber'),
   },
   methods: {
     toggleHello () {
@@ -38,6 +38,7 @@ export default Fw.createComponent({
         </p>
         <p>
           my number from store = {this.computed.myNumberFromStore}
+          (click "Toggle Hello" to increase the number)
         </p>
         <button on={{ click: this.methods.toggleHello }}>
           Toggle Hello
