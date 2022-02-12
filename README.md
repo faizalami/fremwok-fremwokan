@@ -2,7 +2,7 @@
 
 Framework frontend Javascript yg dibuat untuk **belajar** lebih memahami tentang
 **sistem reactivity** pada framework2 frontend modern. jika dilihat2
-framework ini kayak gabungan Vue & React. Tapi untuk pembetukan
+framework ini kayak gabungan Vue (yg versi 2) & React. Tapi untuk pembetukan
 reactivity-nya sendiri disini saya pakai dasar dari konsep reactivity Vue.
 
 Kalo tertarik mempelajari sendiri bagaimana dasar reactivity dari Vue,
@@ -104,7 +104,7 @@ new Fw(rootComponent, document.body, {
 ```
 
 Bisa dilihat dari contoh penggunaan sederhananya kalau 1 komponen **bisa** terdiri dari `name`, `props`, `data`,
-`computed`, `methods`, `created`, `updated`, `destroyed`, dan `render`, mirip Vue kan, emang wkwk.
+`computed`, `methods`, `created`, `updated`, `destroyed`, dan `render`, mirip Vue yg versi 2 kan.
 Dan sama seperti Vue juga kalau nggak perlu semua penyusun komponennya dipakai, jadi misal nggak perlu
 method atau computed ya gpp, hanya saja disini untuk `name` saya buat required karena digunakan menjadi
 semacam ID dari komponen. Untuk penggunaan yang lebih lengkap bisa dilihat pada contoh di folder 
